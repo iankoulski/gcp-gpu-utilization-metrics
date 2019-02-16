@@ -14,10 +14,14 @@ data = requests.get(metadata_server + 'zone', headers = metadata_flavor).text
 zone = data.split("/")[3]
 project_id = data.split("/")[1]
 
-
 client = monitoring_v3.MetricServiceClient()
 project_name = client.project_path(project_id)
 instance_id = requests.get(metadata_server + 'id', headers = metadata_flavor).text
+
+printLogs=False
+envPrintLogs = os.environ['GPU_PRINT_LOGS'].lower()
+if envPrintLogs == 'true' or envPrintLogs == 'yes':
+    printLogs=True
 
 def report_metric(value, type, instance_id, zone, project_id):
     series = monitoring_v3.types.TimeSeries()
@@ -46,11 +50,16 @@ def get_nvidia_smi_utilization(gpu_query_name):
                                csv_file_path=csv_file_path)])
     with open(csv_file_path) as csvfile:
         utilizations = csv.reader(csvfile, delimiter=' ')
+        if printLogs:
+            print('Utilizations: ' + row)
         for row in utilizations:
             length += 1
             if length > 1:
                 usage += int(row[0])
-    return int(usage / (length - 1))
+        averageUtilization = int(usage / (length - 1))
+        if printLogs:
+            print('Average: ' + averageUtilization)
+    return averageUtilization
 
 
 def get_gpu_utilization():
