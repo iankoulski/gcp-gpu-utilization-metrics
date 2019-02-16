@@ -75,4 +75,4 @@ while True:
                 instance_id,
                 zone,
                 project_id)
-  time.sleep(5)
+  time.sleep(60) # Google StackDriver metric reporting frequency is limited to once every 60 seconds
