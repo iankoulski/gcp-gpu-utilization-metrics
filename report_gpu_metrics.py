@@ -3,6 +3,7 @@ import socket
 import subprocess
 import requests
 import csv
+import os
 
 from google.cloud import monitoring_v3
 
@@ -17,7 +18,6 @@ project_id = data.split("/")[1]
 client = monitoring_v3.MetricServiceClient()
 project_name = client.project_path(project_id)
 instance_id = requests.get(metadata_server + 'id', headers = metadata_flavor).text
-
 
 def report_metric(value, type, instance_id, zone, project_id):
     series = monitoring_v3.types.TimeSeries()
@@ -64,6 +64,11 @@ def get_gpu_memory_utilization():
 GPU_UTILIZATION_METRIC_NAME = "gpu_utilization"
 GPU_MEMORY_UTILIZATION_METRIC_NAME = "gpu_memory_utilization"
 
+GPU_REPORTING_FREQUENCY = 60
+freq = int(os.environ['GPU_REPORTING_FREQUENCY'])
+if freq.isnumeric():
+  GPU_REPORTING_FREQUENCY = int(freq)
+
 while True:
   report_metric(get_gpu_utilization(),
                 GPU_UTILIZATION_METRIC_NAME,
@@ -75,4 +80,4 @@ while True:
                 instance_id,
                 zone,
                 project_id)
-  time.sleep(60) # Google StackDriver metric reporting frequency is limited to once every 60 seconds
+  time.sleep(GPU_REPORTING_FREQUENCY)
