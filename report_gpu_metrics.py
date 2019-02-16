@@ -50,15 +50,15 @@ def get_nvidia_smi_utilization(gpu_query_name):
                                csv_file_path=csv_file_path)])
     with open(csv_file_path) as csvfile:
         utilizations = csv.reader(csvfile, delimiter=' ')
-        if printLogs:
-            print('Utilizations: ' + row)
         for row in utilizations:
             length += 1
+            if printLogs:
+                print(str(row))
             if length > 1:
                 usage += int(row[0])
         averageUtilization = int(usage / (length - 1))
         if printLogs:
-            print('Average: ' + averageUtilization)
+            print('Average: ' + str(averageUtilization))
     return averageUtilization
 
 
