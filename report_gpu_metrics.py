@@ -74,7 +74,7 @@ GPU_UTILIZATION_METRIC_NAME = "gpu_utilization"
 GPU_MEMORY_UTILIZATION_METRIC_NAME = "gpu_memory_utilization"
 
 GPU_REPORTING_FREQUENCY = 60
-freq = os.environ['GPU_REPORTING_FREQUENCY']
+freq = str(os.environ['GPU_REPORTING_FREQUENCY'])
 if freq.isnumeric():
   GPU_REPORTING_FREQUENCY = int(freq)
 
