@@ -19,7 +19,7 @@ project_name = client.project_path(project_id)
 instance_id = requests.get(metadata_server + 'id', headers = metadata_flavor).text
 
 printLogs=False
-envPrintLogs = os.environ['GPU_PRINT_LOGS'].lower()
+envPrintLogs = str(os.environ.get('GPU_PRINT_LOGS', 'False')).lower()
 if envPrintLogs == 'true' or envPrintLogs == 'yes':
     printLogs=True
 
@@ -74,7 +74,7 @@ GPU_UTILIZATION_METRIC_NAME = "gpu_utilization"
 GPU_MEMORY_UTILIZATION_METRIC_NAME = "gpu_memory_utilization"
 
 GPU_REPORTING_FREQUENCY = 60
-freq = str(os.environ.get('GPU_REPORTING_FREQUENCY'), '')
+freq = str(os.environ.get('GPU_REPORTING_FREQUENCY', ''))
 if freq.isnumeric():
   GPU_REPORTING_FREQUENCY = int(freq)
 
