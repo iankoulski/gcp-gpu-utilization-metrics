@@ -4,6 +4,8 @@ import subprocess
 import requests
 import csv
 import os
+from time import gmtime, strftime
+import sys
 
 from google.cloud import monitoring_v3
 
@@ -58,7 +60,8 @@ def get_nvidia_smi_utilization(gpu_query_name):
                 usage += int(row[0])
         averageUtilization = int(usage / (length - 1))
         if printLogs:
-            print('Average: ' + str(averageUtilization))
+            print(trftime("%Y-%m-%d %H:%M:%S", gmtime()) + ' GMT, Average: ' + str(averageUtilization))
+            sys.stdout.flush()
     return averageUtilization
 
 
