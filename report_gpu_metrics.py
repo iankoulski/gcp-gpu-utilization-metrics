@@ -60,7 +60,7 @@ def get_nvidia_smi_utilization(gpu_query_name):
                 usage += int(row[0])
         averageUtilization = int(usage / (length - 1))
         if printLogs:
-            print(trftime("%Y-%m-%d %H:%M:%S", gmtime()) + ' GMT, Average: ' + str(averageUtilization))
+            print(strftime("%Y-%m-%d %H:%M:%S", gmtime()) + ' GMT, Average: ' + str(averageUtilization))
             sys.stdout.flush()
     return averageUtilization
 
