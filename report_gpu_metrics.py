@@ -75,7 +75,8 @@ GPU_MEMORY_UTILIZATION_METRIC_NAME = "gpu_memory_utilization"
 
 GPU_REPORTING_FREQUENCY = 60
 freq = str(os.environ.get('GPU_REPORTING_FREQUENCY', ''))
-if freq.isnumeric():
+# Note: Use isdigit() with Python2.x and isnumeric() with Python3.x
+if freq.isdigit():
   GPU_REPORTING_FREQUENCY = int(freq)
 
 while True:
