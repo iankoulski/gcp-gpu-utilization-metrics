@@ -73,8 +73,9 @@ def get_gpu_memory_utilization():
     return get_nvidia_smi_utilization("utilization.memory")
 
 
-GPU_UTILIZATION_METRIC_NAME = "gpu_utilization"
-GPU_MEMORY_UTILIZATION_METRIC_NAME = "gpu_memory_utilization"
+gpu_metric_suffix = str(os.environ.get('GPU_METRIC_SUFFIX', ''))
+GPU_UTILIZATION_METRIC_NAME = "gpu_utilization" + gpu_metric_suffix
+GPU_MEMORY_UTILIZATION_METRIC_NAME = "gpu_memory_utilization" + gpu_metric_suffix
 
 GPU_REPORTING_FREQUENCY = 60
 freq = str(os.environ.get('GPU_REPORTING_FREQUENCY', ''))

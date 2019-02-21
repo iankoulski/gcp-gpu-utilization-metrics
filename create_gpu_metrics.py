@@ -5,7 +5,6 @@ from google.cloud import monitoring_v3
 project_id = (os.environ['GOOGLE_CLOUD_PROJECT'] or
               os.environ['GCLOUD_PROJECT'])
 
-
 class MissingProjectIdError(Exception):
     pass
 
@@ -15,8 +14,9 @@ if not project_id:
           'Set the environment variable ' +
           'GCLOUD_PROJECT to your Google Cloud Project Id.')
           
-GPU_UTILIZATION_METRIC_NAME = "gpu_utilization"
-GPU_MEMORY_UTILIZATION_METRIC_NAME = "gpu_memory_utilization"
+gpu_metric_suffix = str(os.environ.get('GPU_METRIC_SUFFIX', ''))
+GPU_UTILIZATION_METRIC_NAME = "gpu_utilization" + gpu_metric_suffix
+GPU_MEMORY_UTILIZATION_METRIC_NAME = "gpu_memory_utilization" + gpu_metric_suffix
 
 client = monitoring_v3.MetricServiceClient()
 project_name = client.project_path(project_id)
